@@ -1,0 +1,17 @@
+{
+  "extends": "@react-native/typescript-config",
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "baseUrl": ".",
+    "rootDirs": [".", "src"],
+    "types": ["jest"],
+    "paths": {
+      "@types/*": ["src/@types/*"],
+      "assets/*": ["src/assets/*"],
+      "shared/*": ["src/shared/*"],
+      "tests/*": ["android/__tests__/*"]
+    },
+    "experimentalDecorators": true
+  },
+  "exclude": ["**/node_modules", "**/Pods"]
+}
