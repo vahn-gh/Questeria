@@ -6,6 +6,7 @@ import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { useSafeInsets } from 'shared/hooks/useSafeInsets'
+import { CommonStyles } from 'shared/theme/commonStyles'
 
 // TODO: Refactor to UI library
 type ColorNameType = string
@@ -88,12 +89,13 @@ const ss = StyleSheet.create({
     shadowRadius: 12,
     elevation: 8,
   },
-  textContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-  },
+  textContent: CommonStyles.merge([
+    CommonStyles.center,
+    CommonStyles.row,
+    {
+      gap: 8,
+    },
+  ]),
   emoji: {
     fontSize: 16,
     color: '#FF7EB9',

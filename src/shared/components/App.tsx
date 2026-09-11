@@ -4,17 +4,18 @@ import {
   Button,
   ScrollView,
   StatusBar,
-  StyleSheet,
   Text,
   useColorScheme,
   View,
 } from 'react-native'
 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { NeedsAdapter } from 'shared/adapters/NeedsAdapter'
 import { seedProgressStorage } from 'shared/storage/seedNeeds'
 import { ProgressStorage } from 'shared/storage/Storage'
+import { CommonStyles } from 'shared/theme/commonStyles'
 import { Need } from 'shared/types/Need'
 
 import { Toast } from './Toast'
@@ -52,9 +53,9 @@ function AppContent() {
 
   return (
     <SafeAreaView>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView contentContainerStyle={[CommonStyles.p16, CommonStyles.gap8]}>
         {needs.map(need => (
-          <View key={need.id} style={styles.row}>
+          <View key={need.id} style={ss.row}>
             <Text>{need.label}</Text>
             <Text>{need.percentage}%</Text>
           </View>
@@ -70,15 +71,13 @@ function AppContent() {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    gap: 8,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
+const ss = StyleSheet.create({
+  row: CommonStyles.merge([
+    CommonStyles.row,
+    {
+      justifyContent: 'space-between',
+    },
+  ]),
 })
 
 export default App
