@@ -1,0 +1,21 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/PixelifySans-Bold.ttf",
+      "sha1": "bc4d9af369cc882ecc017211e4f234138f5e4cff"
+    },
+    {
+      "path": "assets/fonts/PixelifySans-Medium.ttf",
+      "sha1": "de7d351649dfcfd81d3603c5b1b02fd93cdd86d9"
+    },
+    {
+      "path": "assets/fonts/PixelifySans-Regular.ttf",
+      "sha1": "2d1f19fafe53a0888fc7a743e5cb4de27a8d3410"
+    },
+    {
+      "path": "assets/fonts/PixelifySans-SemiBold.ttf",
+      "sha1": "fb7f4afecba08f717bd20aaa2d2cfc937addb0f0"
+    }
+  ]
+}

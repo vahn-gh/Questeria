@@ -1,17 +1,34 @@
 import { StyleSheet } from 'react-native-unistyles'
 
-import { GrassThemeColors } from './colors'
+import { Theme } from 'shared/types/Theme'
 
-const AppThemes = {
-  grass: {
-    colors: GrassThemeColors,
+import {
+  CoffeeThemeColors,
+  ColorNameType,
+  HackerThemeColors,
+  KawaiiThemeColors,
+} from './colors'
+
+interface AppTheme {
+  colors: Partial<Record<ColorNameType, string>>
+}
+
+const AppThemes: Record<Theme, AppTheme> = {
+  Coffee: {
+    colors: CoffeeThemeColors,
+  },
+  Kawaii: {
+    colors: KawaiiThemeColors,
+  },
+  Hacker: {
+    colors: HackerThemeColors,
   },
 }
 
 StyleSheet.configure({
   settings: {
     adaptiveThemes: false,
-    initialTheme: 'grass',
+    initialTheme: Theme.Coffee,
   },
   themes: AppThemes,
 })

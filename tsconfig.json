@@ -9,6 +9,7 @@
       "@types/*": ["src/@types/*"],
       "assets/*": ["src/assets/*"],
       "shared/*": ["src/shared/*"],
+      "src/*": ["src/*"],
       "tests/*": ["android/__tests__/*"]
     },
     "experimentalDecorators": true

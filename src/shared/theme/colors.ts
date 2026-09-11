@@ -1,13 +1,39 @@
-export const GrassThemeColors = {
-  SulpherYellow: '#F5ECC2',
-  BrickRed: '#A84222',
-  CinnamonBuff: '#FDC57E',
-  HOME_BACKGROUND: '#72a931',
-  MEDIUM_GREY: '#393939',
+import { useUnistyles } from 'react-native-unistyles'
+
+export const KawaiiThemeColors = {
+  Primary: '#EB6383', // Rose Pink
+  Secondary: '#FA9191', // Coral Blush
+  Tertiary: '#FFE9C5', // Cream Peach
+  Quaternary: '#B4F2E1', // Mint Pastel
+}
+
+export const HackerThemeColors = {
+  Primary: '#05614B', // Deep Teal
+  Secondary: '#020E0E', // Very Dark Cyan
+  Tertiary: '#01DE82', // Bright Mint Green
+  Quaternary: '#FF2E2E', // Alert Red
+}
+
+export const CoffeeThemeColors = {
+  Primary: '#40312f', // Espresso Bean
+  Secondary: '#A17D45', // Amber Oak
+  Tertiary: '#EAD7DE', // Blush Mist
+  Quaternary: '#5C2339', // Wine Bean
+}
+
+export const useTheme = () => {
+  const { theme } = useUnistyles()
+
+  return theme
 }
 
 export const useColors = () => {
-  const colors = GrassThemeColors
+  const theme = useTheme()
 
-  return colors
+  return theme.colors
 }
+
+export type ColorNameType =
+  | keyof typeof KawaiiThemeColors
+  | keyof typeof HackerThemeColors
+  | keyof typeof CoffeeThemeColors

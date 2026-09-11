@@ -1,6 +1,7 @@
 export enum Theme {
-  Light = 'Light',
-  Dark = 'Dark',
+  Coffee = 'Coffee',
+  Kawaii = 'Kawaii',
+  Hacker = 'Hacker',
 }
 
 export enum Layout {

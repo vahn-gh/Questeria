@@ -20,7 +20,14 @@ module.exports = {
            * Regular expression is used to match all files inside `./src` directory and map each `.src/folder/[..]` to `~folder/[..]` path
            */
           [`^(${SRC_MODULES.join('|')})\/(.+)`]: './src/\\0',
+          src: './src',
         },
+      },
+    ],
+    [
+      'react-native-unistyles/plugin',
+      {
+        root: 'src',
       },
     ],
     // Caution: react-native-worklets/plugin has to be listed last.
