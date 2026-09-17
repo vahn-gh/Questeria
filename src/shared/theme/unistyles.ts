@@ -6,7 +6,7 @@ import {
   CoffeeThemeColors,
   ColorNameType,
   HackerThemeColors,
-  KawaiiThemeColors,
+  CuteThemeColors,
 } from './colors'
 
 interface AppTheme {
@@ -17,8 +17,8 @@ const AppThemes: Record<Theme, AppTheme> = {
   Coffee: {
     colors: CoffeeThemeColors,
   },
-  Kawaii: {
-    colors: KawaiiThemeColors,
+  Cute: {
+    colors: CuteThemeColors,
   },
   Hacker: {
     colors: HackerThemeColors,

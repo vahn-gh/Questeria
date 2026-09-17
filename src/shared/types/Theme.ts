@@ -1,6 +1,6 @@
 export enum Theme {
   Coffee = 'Coffee',
-  Kawaii = 'Kawaii',
+  Cute = 'Cute',
   Hacker = 'Hacker',
 }
 

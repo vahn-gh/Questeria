@@ -8,14 +8,14 @@ import { Screens } from 'shared/navigation/types/Screens'
 import {
   CoffeeThemeColors,
   HackerThemeColors,
-  KawaiiThemeColors,
+  CuteThemeColors,
 } from 'shared/theme/colors'
 import { CommonStyles } from 'shared/theme/commonStyles'
 
 type Props = ScreenProps<Screens.DevDesignReference>
 
 const themes = [
-  { name: 'KawaiiTheme', colors: KawaiiThemeColors },
+  { name: 'CuteTheme', colors: CuteThemeColors },
   { name: 'HackerTheme', colors: HackerThemeColors },
   { name: 'CoffeeTheme', colors: CoffeeThemeColors },
 ]

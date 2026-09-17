@@ -67,7 +67,7 @@ export const ToastCard = ({ data, onClose }: Props) => {
   )
 }
 
-// TODO: temporary kawaii styles until the UI library lands
+// TODO: temporary cute styles until the UI library lands
 const ss = StyleSheet.create({
   container: {
     position: 'absolute',

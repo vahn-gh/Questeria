@@ -1,6 +1,6 @@
 import { useUnistyles } from 'react-native-unistyles'
 
-export const KawaiiThemeColors = {
+export const CuteThemeColors = {
   Primary: '#EB6383', // Rose Pink
   Secondary: '#FA9191', // Coral Blush
   Tertiary: '#FFE9C5', // Cream Peach
@@ -34,6 +34,6 @@ export const useColors = () => {
 }
 
 export type ColorNameType =
-  | keyof typeof KawaiiThemeColors
+  | keyof typeof CuteThemeColors
   | keyof typeof HackerThemeColors
   | keyof typeof CoffeeThemeColors
