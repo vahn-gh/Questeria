@@ -1,3 +1,5 @@
+import { Toast } from 'shared/components/Toast'
+
 import { ERROR_MESSAGES } from './constants'
 
 export type InputErrorType = Error | string | undefined | null | unknown
@@ -14,7 +16,8 @@ export class ErrorAPI {
   static show(error: InputErrorType) {
     const parsedError = ErrorAPI.parseError(error)
 
-    // TODO: Implement Toast
+    Toast.showInfo(parsedError.message)
+
     console.error(parsedError.message)
   }
 

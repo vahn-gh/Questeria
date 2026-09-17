@@ -1,5 +1,7 @@
 import { nanoid } from 'nanoid/non-secure'
 
+import { NeedsAdapter } from 'shared/adapters/NeedsAdapter'
+import { ErrorAPI } from 'shared/error/ErrorAPI'
 import { ProgressStorage } from 'shared/storage/Storage'
 import { Need } from 'shared/types/Need'
 
@@ -16,6 +18,7 @@ const LABELS = [
   'Music',
 ]
 
+// TODO: Don't forget to remove this
 export const generateNeeds = (count = 10): Need[] =>
   Array.from({ length: count }, (_, index) => ({
     id: nanoid(),
@@ -27,6 +30,12 @@ export const seedProgressStorage = () => {
   ProgressStorage.clearAll()
 
   for (const need of generateNeeds()) {
-    ProgressStorage.set(need.id, JSON.stringify(need))
+    try {
+      const data = NeedsAdapter.stringifyItem(need)
+
+      ProgressStorage.set(need.id, data)
+    } catch (e) {
+      ErrorAPI.show(e)
+    }
   }
 }

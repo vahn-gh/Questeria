@@ -1,0 +1,2 @@
+export const NEED_LABEL_LENGTH = 12
+export const NEED_PERCENTAGE_RANGE = 100
