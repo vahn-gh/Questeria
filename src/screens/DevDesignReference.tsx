@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Button } from 'shared/components/Button'
+import { ProgressBar } from 'shared/components/ProgressBar'
 import {
   Typography,
   TypographyType,
@@ -18,6 +19,7 @@ import {
   CuteThemeColors,
 } from 'shared/theme/colors'
 import { CommonStyles } from 'shared/theme/commonStyles'
+import { NeedType } from 'shared/types/Need'
 
 type Props = ScreenProps<Screens.DevDesignReference>
 
@@ -98,6 +100,53 @@ export const DevDesignReference: React.FC<Props> = ({ navigation }) => {
             </Button>
           </View>
         </View>
+
+        <View style={CommonStyles.gap12}>
+          <Text style={ss.sectionTitle}>UI Components</Text>
+          <View style={CommonStyles.gap12}>
+            <ProgressBar
+              type={NeedType.FullWidth}
+              label="Energy"
+              percentage={80}
+            />
+            <ProgressBar
+              type={NeedType.FullWidth}
+              label="Sleep"
+              percentage={60}
+            />
+          </View>
+          <View style={ss.bigRow}>
+            <ProgressBar type={NeedType.Big} label="Energy" percentage={80} />
+            <ProgressBar type={NeedType.Big} label="Food" percentage={45} />
+            <ProgressBar type={NeedType.Big} label="Social" percentage={65} />
+          </View>
+          <View style={ss.listItemGrid}>
+            <ProgressBar
+              type={NeedType.ListItem}
+              label="Energy"
+              percentage={80}
+              style={ss.listItemCell}
+            />
+            <ProgressBar
+              type={NeedType.ListItem}
+              label="Food"
+              percentage={45}
+              style={ss.listItemCell}
+            />
+            <ProgressBar
+              type={NeedType.ListItem}
+              label="Social"
+              percentage={60}
+              style={ss.listItemCell}
+            />
+            <ProgressBar
+              type={NeedType.ListItem}
+              label="Sanity"
+              percentage={5}
+              style={ss.listItemCell}
+            />
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
@@ -138,5 +187,16 @@ const ss = StyleSheet.create({
   label: {
     fontSize: 11,
     textAlign: 'center',
+  },
+  bigRow: CommonStyles.merge([CommonStyles.row, CommonStyles.gap12]),
+  listItemGrid: CommonStyles.merge([
+    CommonStyles.row,
+    CommonStyles.gap12,
+    {
+      flexWrap: 'wrap',
+    },
+  ]),
+  listItemCell: {
+    width: '48%',
   },
 })

@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 
 import {
   GestureResponderEvent,
-  LayoutChangeEvent,
   Pressable,
   PressableProps,
   StyleProp,
@@ -10,7 +9,7 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import { PixelBorder } from 'shared/components/PixelBorder'
+import { PixelBox } from 'shared/components/PixelBox'
 import { ColorNameType, useColors } from 'shared/theme/colors'
 import { triggerHaptic } from 'shared/utils/triggerHaptic'
 
@@ -69,7 +68,6 @@ export const Button: React.FC<Props> = ({
   const colors = useColors()
 
   const [asyncLoading, setAsyncLoading] = useState(false)
-  const [layoutSize, setLayoutSize] = useState({ width: 0, height: 0 })
 
   const isLoading = loading || asyncLoading
   const isDisabled = disabled
@@ -92,11 +90,6 @@ export const Button: React.FC<Props> = ({
     }
   }
 
-  const handleLayout = useCallback((evt: LayoutChangeEvent) => {
-    const { width, height } = evt.nativeEvent.layout
-    setLayoutSize({ width, height })
-  }, [])
-
   const config = STYLE_KEYS[type]
 
   const hasRightIcon = Boolean(isLoading)
@@ -114,8 +107,6 @@ export const Button: React.FC<Props> = ({
   return (
     <Pressable
       disabled={isDisabled || isLoading}
-      style={buttonStyle}
-      onLayout={handleLayout}
       onPress={handlePress}
       {...props}
     >
@@ -129,22 +120,20 @@ export const Button: React.FC<Props> = ({
         const stateConfig = config[state]
 
         return (
-          <>
-            <PixelBorder
-              width={layoutSize.width}
-              height={layoutSize.height}
-              color={
-                stateConfig.fillColor
-                  ? colors[stateConfig.fillColor]
-                  : undefined
-              }
-              outlineColor={colors.Outline}
-              bevel={Boolean(stateConfig.bevel)}
-            />
+          <PixelBox
+            style={buttonStyle}
+            options={{
+              backgroundColor: stateConfig.fillColor
+                ? colors[stateConfig.fillColor]
+                : undefined,
+              outlineColor: colors.Outline,
+              bevel: stateConfig.bevel,
+            }}
+          >
             <Typography numberOfLines={1} type="h5" color={textColor}>
               {children}
             </Typography>
-          </>
+          </PixelBox>
         )
       }}
     </Pressable>
