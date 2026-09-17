@@ -3,6 +3,13 @@ import { Pressable, ScrollView, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 
+import { Button } from 'shared/components/Button'
+import {
+  Typography,
+  TypographyType,
+  ssFontTypeMap,
+} from 'shared/components/Typography'
+import { Icon, ICON_NAMES } from 'shared/icon'
 import { ScreenProps } from 'shared/navigation/types/NavigationParams'
 import { Screens } from 'shared/navigation/types/Screens'
 import {
@@ -19,6 +26,8 @@ const themes = [
   { name: 'HackerTheme', colors: HackerThemeColors },
   { name: 'CoffeeTheme', colors: CoffeeThemeColors },
 ]
+
+const TYPOGRAPHY_TYPES = Object.keys(ssFontTypeMap) as TypographyType[]
 
 export const DevDesignReference: React.FC<Props> = ({ navigation }) => {
   return (
@@ -42,6 +51,53 @@ export const DevDesignReference: React.FC<Props> = ({ navigation }) => {
             </View>
           </View>
         ))}
+
+        <View style={CommonStyles.gap12}>
+          <Text style={ss.sectionTitle}>Typography</Text>
+          <View style={CommonStyles.gap8}>
+            {TYPOGRAPHY_TYPES.map(type => (
+              <Typography key={type} type={type}>
+                {type}
+              </Typography>
+            ))}
+          </View>
+        </View>
+
+        <View style={CommonStyles.gap12}>
+          <Text style={ss.sectionTitle}>Icons</Text>
+          <View style={ss.grid}>
+            {ICON_NAMES.map(name => (
+              <View key={name} style={ss.swatch}>
+                <Icon name={name} size={32} />
+                <Text style={ss.label}>{name}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        <View style={CommonStyles.gap12}>
+          <Text style={ss.sectionTitle}>Button</Text>
+          <View
+            style={CommonStyles.merge([CommonStyles.row, CommonStyles.gap12])}
+          >
+            <Button size="small" onPress={() => {}}>
+              Small
+            </Button>
+            <Button size="medium" onPress={() => {}}>
+              Medium
+            </Button>
+          </View>
+          <View
+            style={CommonStyles.merge([CommonStyles.row, CommonStyles.gap12])}
+          >
+            <Button size="medium" loading onPress={() => {}}>
+              Loading
+            </Button>
+            <Button size="medium" disabled onPress={() => {}}>
+              Disabled
+            </Button>
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )

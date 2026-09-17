@@ -5,6 +5,7 @@ export const CuteThemeColors = {
   Secondary: '#FA9191', // Coral Blush
   Tertiary: '#FFE9C5', // Cream Peach
   Quaternary: '#B4F2E1', // Mint Pastel
+  Outline: '#3B2540', // Deep Plum
 }
 
 export const HackerThemeColors = {
@@ -12,6 +13,7 @@ export const HackerThemeColors = {
   Secondary: '#020E0E', // Very Dark Cyan
   Tertiary: '#01DE82', // Bright Mint Green
   Quaternary: '#FF2E2E', // Alert Red
+  Outline: '#00110D', // Near Black
 }
 
 export const CoffeeThemeColors = {
@@ -19,6 +21,7 @@ export const CoffeeThemeColors = {
   Secondary: '#A17D45', // Amber Oak
   Tertiary: '#EAD7DE', // Blush Mist
   Quaternary: '#5C2339', // Wine Bean
+  Outline: '#1F1310', // Near Black Brown
 }
 
 export const useTheme = () => {

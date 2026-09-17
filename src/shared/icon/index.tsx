@@ -12,6 +12,8 @@ const ICON_MAP = {
 
 export type IconNameType = keyof typeof ICON_MAP
 
+export const ICON_NAMES = Object.keys(ICON_MAP) as IconNameType[]
+
 interface IProps {
   name: IconNameType
   colorValue?: string
