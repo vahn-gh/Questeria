@@ -1,4 +1,4 @@
-package com.needs
+package com.questeria
 
 import android.app.Application
 import com.facebook.react.PackageList
