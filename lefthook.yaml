@@ -1,0 +1,24 @@
+pre-commit:
+  parallel: true
+  commands:
+    packagejson:
+      glob: "package.json"
+      run: node scripts/validatePackagejson.js
+
+    types:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: yarn tsc
+
+    prettier:
+      glob: "*.{js,ts,tsx,scss,css,json}"
+      run: yarn prettier {staged_files} --check --config .prettierrc
+
+    eslint:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: yarn eslint {staged_files} --quiet
+
+commit-msg:
+  parallel: true
+  commands:
+    commitlint:
+      run: yarn commitlint --edit
