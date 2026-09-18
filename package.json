@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "preinstall": "node scripts/setupLibrary.js",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "yarn lint:packagejson && yarn tsc && yarn _prettier --check && yarn lint:eslint",
@@ -29,6 +30,7 @@
     "react-native-safe-area-context": "5.9.1",
     "react-native-screens": "4.27.0",
     "react-native-svg": "15.15.5",
+    "react-native-svg-pixel-ui": "link:./libraries/react-native-svg-pixel-ui",
     "react-native-unistyles": "3.2.5",
     "react-native-worklets": "0.12.1"
   },
@@ -60,9 +62,6 @@
     "react-test-renderer": "19.2.3",
     "typescript": "5.8.3"
   },
-  "workspaces": [
-    "libraries/*"
-  ],
   "engines": {
     "node": ">= 22.11.0"
   }

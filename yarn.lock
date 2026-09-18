@@ -6164,6 +6164,10 @@ react-native-screens@4.27.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+"react-native-svg-pixel-ui@link:./libraries/react-native-svg-pixel-ui":
+  version "0.0.0"
+  uid ""
+
 react-native-svg-transformer@1.5.3:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/react-native-svg-transformer/-/react-native-svg-transformer-1.5.3.tgz#a45b1bacb0623b66b134726a389ab2c67d856252"
