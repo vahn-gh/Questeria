@@ -10,7 +10,7 @@ pre-commit:
       run: yarn tsc
 
     prettier:
-      glob: "*.{js,ts,tsx,scss,css,json}"
+      glob: "{scripts,__tests__,src}/**/*.{js,ts,tsx,scss,css,json}"
       run: yarn prettier {staged_files} --check --config .prettierrc
 
     eslint:

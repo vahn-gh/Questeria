@@ -23,6 +23,7 @@ module.exports = defineConfig([
     '**/jest.config.js',
     '**/metro.config.js',
     '**/scripts/',
+    '**/libraries/',
   ]),
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
