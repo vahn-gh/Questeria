@@ -1,4 +1,4 @@
-const { dependencies, devDependencies } = require('../package.json')
+const { dependencies = {}, devDependencies = {} } = require('../package.json')
 
 const hasError = list => {
   let isErrored = false
