@@ -60,6 +60,9 @@
     "react-test-renderer": "19.2.3",
     "typescript": "5.8.3"
   },
+  "workspaces": [
+    "libraries/*"
+  ],
   "engines": {
     "node": ">= 22.11.0"
   }

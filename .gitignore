@@ -93,3 +93,6 @@ e2e-failures
 
 # Random
 .local
+
+# Local library workspaces (published independently)
+/libraries/
