@@ -13,9 +13,9 @@ pre-commit:
       glob: "{scripts,__tests__,src}/**/*.{js,ts,tsx,scss,css,json}"
       run: yarn prettier {staged_files} --check --config .prettierrc
 
-    oxlint:
+    eslint:
       glob: "*.{js,ts,jsx,tsx}"
-      run: yarn oxlint {staged_files}
+      run: yarn eslint {staged_files} --quiet
 
 commit-msg:
   parallel: true
