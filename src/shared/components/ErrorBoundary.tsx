@@ -4,7 +4,7 @@ import { Modal, Text } from 'react-native'
 
 import { RootNavigator } from '../navigation/RootNavigator'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+// oxlint-disable-next-line typescript/no-empty-object-type
 interface Props {}
 interface State {
   open: boolean

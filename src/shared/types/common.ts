@@ -8,7 +8,7 @@ type PrettifyArray<A> = A extends readonly (infer U)[]
 // example: instead of SpacingEntry['mb'], displays {marginBottom: number}
 export type Prettify<T> =
   // leave functions untouched
-  T extends (...args: any[]) => any
+  T extends (...args: unknown[]) => unknown
     ? T
     : // recurse into arrays / tuples
       T extends readonly unknown[]

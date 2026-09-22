@@ -17,9 +17,9 @@ type MainNavigatorParamsList = {
 export type RootStackParamList = MainNavigatorParamsList
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
+  // oxlint-disable-next-line typescript/no-namespace
   namespace ReactNavigation {
-    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    // oxlint-disable-next-line typescript/no-empty-object-type
     interface RootParamList extends RootStackParamList {}
   }
 }

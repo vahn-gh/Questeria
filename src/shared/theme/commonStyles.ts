@@ -6,9 +6,9 @@ import { generateSpacingStyles } from './spacing'
 
 type StyleItem = ViewStyle | TextStyle | ImageStyle
 
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I
-) => void
+type UnionToIntersection<U> = (
+  U extends unknown ? (k: U) => void : never
+) extends (k: infer I) => void
   ? I
   : never
 

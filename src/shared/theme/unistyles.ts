@@ -36,6 +36,6 @@ StyleSheet.configure({
 type AppThemes = typeof AppThemes
 
 declare module 'react-native-unistyles' {
-  /*eslint-disable @typescript-eslint/no-empty-object-type*/
+  // oxlint-disable-next-line typescript/no-empty-object-type
   export interface UnistylesThemes extends AppThemes {}
 }

@@ -9,11 +9,9 @@ export const shadeHexColor = (hex: string, percent: number): string => {
   const num = parseInt(hex.replace('#', ''), 16)
   const amount = Math.round(2.55 * percent)
 
-  /* eslint-disable no-bitwise */
   const r = clamp((num >> 16) + amount)
   const g = clamp(((num >> 8) & 0x00ff) + amount)
   const b = clamp((num & 0x0000ff) + amount)
-  /* eslint-enable no-bitwise */
 
   return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`
 }
