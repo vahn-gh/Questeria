@@ -1,5 +1,46 @@
 # Questeria
 
+## Commit messages
+
+Commits are linted with commitlint (`@commitlint/config-conventional`), enforced via a lefthook `commit-msg` hook. Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>(<optional scope>): <description>
+
+<optional body>
+
+<optional footer>
+```
+
+`type` is one of:
+
+| Type | Use for |
+|---|---|
+| `feat` | A new feature or capability for the user (in this repo, this does **not** trigger a version bump) |
+| `fix` | A bug fix |
+| `docs` | Documentation only (README, comments, etc.) — no code behavior change |
+| `style` | Formatting/whitespace/semicolons — no code meaning change (not CSS/UI styling) |
+| `refactor` | Code change that neither fixes a bug nor adds a feature (renaming, restructuring) |
+| `perf` | A change that improves performance |
+| `test` | Adding or correcting tests |
+| `build` | Changes to the build system or dependencies (e.g. yarn, Gradle, Xcode project) |
+| `ci` | Changes to CI config/scripts (e.g. GitHub Actions) |
+| `chore` | Other maintenance that doesn't fit above (tooling config, repo housekeeping) |
+| `revert` | Reverts a previous commit |
+
+- `description` — lowercase, imperative mood ("add" not "added"/"adds"), no trailing period
+- Breaking changes — either add `!` after the type/scope (e.g. `feat!:`) or include a `BREAKING CHANGE:` footer
+
+Examples:
+
+```
+feat(auth): add biometric login
+fix: prevent crash on empty quest list
+docs: document commit message rules
+refactor(quests): extract quest sorting into a helper
+chore: update tsconfig and eslint config
+```
+
 ## Working with UI libraries
 
 Shared UI code (e.g. `react-native-svg-pixel-ui`) lives in its own repo, published independently to npm, but is used here as a local checkout under `libraries/` so it can be developed and tested without a publish/install round trip.
