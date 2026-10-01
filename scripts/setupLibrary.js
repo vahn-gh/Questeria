@@ -6,8 +6,8 @@ const LIBRARIES_DIR = path.resolve(__dirname, '../libraries')
 
 const libraries = [
   {
-    name: 'react-native-svg-pixel-ui',
-    repo: 'git@github.com:vahn-gh/react-native-svg-pixel-ui.git',
+    name: 'react-native-pixelkit',
+    repo: 'git@github.com:vahn-gh/react-native-pixelkit.git',
   },
 ]
 

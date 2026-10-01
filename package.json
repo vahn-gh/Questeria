@@ -30,7 +30,7 @@
     "react-native-safe-area-context": "5.9.1",
     "react-native-screens": "4.27.0",
     "react-native-svg": "15.15.5",
-    "react-native-svg-pixel-ui": "link:./libraries/react-native-svg-pixel-ui",
+    "react-native-pixelkit": "link:./libraries/react-native-pixelkit",
     "react-native-unistyles": "3.2.5",
     "react-native-worklets": "0.12.1"
   },
