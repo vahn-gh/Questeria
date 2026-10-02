@@ -1,6 +1,6 @@
 export enum Screens {
   RootMain = 'RootMain',
 
-  ProgressScreen = 'ProgressScreen',
+  QuestsScreen = 'QuestsScreen',
   DevDesignReference = 'DevDesignReference',
 }

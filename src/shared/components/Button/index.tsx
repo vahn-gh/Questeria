@@ -9,7 +9,8 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import { PixelBox } from 'shared/components/PixelBox'
+import { PixelViewBox } from 'react-native-pixelkit'
+
 import { ColorNameType, useColors } from 'shared/theme/colors'
 import { triggerHaptic } from 'shared/utils/triggerHaptic'
 
@@ -22,6 +23,13 @@ interface ButtonTypeStateStyle {
   textColor: ColorNameType
   fillColor?: ColorNameType
   bevel?: boolean
+}
+
+const PIXEL_BOX_OPTIONS = {
+  borderWidth: 3,
+  borderRadius: 6,
+  highlightRatio: 0.4,
+  lipHeight: 5,
 }
 
 type ButtonState = 'default' | 'disabled' | 'pressed'
@@ -120,20 +128,21 @@ export const Button: React.FC<Props> = ({
         const stateConfig = config[state]
 
         return (
-          <PixelBox
+          <PixelViewBox
             style={buttonStyle}
             options={{
               backgroundColor: stateConfig.fillColor
                 ? colors[stateConfig.fillColor]
                 : undefined,
               outlineColor: colors.Outline,
-              bevel: stateConfig.bevel,
+              bevel: Boolean(stateConfig.bevel),
+              ...PIXEL_BOX_OPTIONS,
             }}
           >
             <Typography numberOfLines={1} type="h5" color={textColor}>
               {children}
             </Typography>
-          </PixelBox>
+          </PixelViewBox>
         )
       }}
     </Pressable>

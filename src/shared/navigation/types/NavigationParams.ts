@@ -10,7 +10,7 @@ export type ScreenProps<T extends keyof ScreenParamList> =
 type MainNavigatorParamsList = {
   [Screens.RootMain]: undefined
 
-  [Screens.ProgressScreen]: undefined
+  [Screens.QuestsScreen]: undefined
   [Screens.DevDesignReference]: undefined
 }
 

@@ -1,3 +1,0 @@
-export const DEFAULT_BORDER_WIDTH = 3
-export const DEFAULT_HIGHLIGHT_RATIO = 0.4
-export const DEFAULT_LIP_HEIGHT = 5

@@ -82,7 +82,3 @@ export const createMMKVStorage = (params: Configuration) =>
 export const AppStorage = createMMKVStorage({
   id: 'mmkv.app',
 })
-
-export const ProgressStorage = createMMKVStorage({
-  id: 'mmkv.data',
-})
