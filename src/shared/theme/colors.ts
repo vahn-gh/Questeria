@@ -1,27 +1,11 @@
 import { useUnistyles } from 'react-native-unistyles'
 
-export const CuteThemeColors = {
-  Primary: '#EB6383', // Rose Pink
-  Secondary: '#FA9191', // Coral Blush
-  Tertiary: '#FFE9C5', // Cream Peach
-  Quaternary: '#B4F2E1', // Mint Pastel
-  Outline: '#3B2540', // Deep Plum
-}
-
-export const HackerThemeColors = {
-  Primary: '#05614B', // Deep Teal
-  Secondary: '#020E0E', // Very Dark Cyan
-  Tertiary: '#01DE82', // Bright Mint Green
-  Quaternary: '#FF2E2E', // Alert Red
-  Outline: '#00110D', // Near Black
-}
-
-export const CoffeeThemeColors = {
-  Primary: '#40312f', // Espresso Bean
-  Secondary: '#A17D45', // Amber Oak
-  Tertiary: '#EAD7DE', // Blush Mist
-  Quaternary: '#5C2339', // Wine Bean
-  Outline: '#1F1310', // Near Black Brown
+export const FantasyThemeColor = {
+  Primary: '#654a2e', // Worn Wood
+  Secondary: '#b58b5c', // Tan Leather
+  Tertiary: '#d5b88e', // Aged Parchment
+  Quaternary: '#8d4f3b', // Wax Seal
+  Outline: '#482b03', // Ink Brown
 }
 
 export const useTheme = () => {
@@ -36,7 +20,4 @@ export const useColors = () => {
   return theme.colors
 }
 
-export type ColorNameType =
-  | keyof typeof CuteThemeColors
-  | keyof typeof HackerThemeColors
-  | keyof typeof CoffeeThemeColors
+export type ColorNameType = keyof typeof FantasyThemeColor

@@ -13,21 +13,13 @@ import {
 import { Icon, ICON_NAMES } from 'shared/icon'
 import { ScreenProps } from 'shared/navigation/types/NavigationParams'
 import { Screens } from 'shared/navigation/types/Screens'
-import {
-  CoffeeThemeColors,
-  HackerThemeColors,
-  CuteThemeColors,
-} from 'shared/theme/colors'
+import { FantasyThemeColor } from 'shared/theme/colors'
 import { CommonStyles } from 'shared/theme/commonStyles'
 import { NeedType } from 'shared/types/Need'
 
 type Props = ScreenProps<Screens.DevDesignReference>
 
-const themes = [
-  { name: 'CuteTheme', colors: CuteThemeColors },
-  { name: 'HackerTheme', colors: HackerThemeColors },
-  { name: 'CoffeeTheme', colors: CoffeeThemeColors },
-]
+const themes = [{ name: 'CoffeeTheme', colors: FantasyThemeColor }]
 
 const TYPOGRAPHY_TYPES = Object.keys(ssFontTypeMap) as TypographyType[]
 
