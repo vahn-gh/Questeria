@@ -4,7 +4,7 @@ import { View } from 'react-native'
 
 import { StyleSheet } from 'react-native-unistyles'
 
-import { PotionSpin } from '../PotionAnimated'
+import { PotionSpin } from '../../../quests/components/PotionAnimated'
 import { CommonStyles } from 'shared/theme/commonStyles'
 
 const REMOVE_DELAY_MS = 2500

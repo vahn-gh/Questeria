@@ -6,7 +6,7 @@
     "rootDirs": [".", "src"],
     "types": ["jest"],
     "paths": {
-      "@types/*": ["src/@types/*"],
+      "@types/*": ["src/quests/@types/*"],
       "assets/*": ["src/assets/*"],
       "shared/*": ["src/shared/*"],
       "src/*": ["src/*"],

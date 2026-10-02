@@ -1,12 +1,12 @@
 import { Unmanaged } from 'realm'
 
-import { QuestsSchema } from 'src/schemas/QuestsSchema'
+import { QuestsSchema } from 'src/quests/services/QuestsSchema'
 
 import {
   QUEST_LABEL_LENGTH,
   QUEST_PERCENTAGE_RANGE,
-} from 'shared/constants/constraints'
-import { Quest, QuestSketch, QuestSketchKind } from 'shared/types/Quests'
+} from 'src/quests/constants/constraints'
+import { Quest, QuestSketch, QuestSketchKind } from 'src/quests/types/Quests'
 
 export class QuestsAdapter {
   /** @throws {Error} */

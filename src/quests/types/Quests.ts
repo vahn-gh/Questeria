@@ -1,4 +1,4 @@
-import { UniqueID } from './common'
+import { UniqueID } from 'shared/types/common'
 
 export enum QuestSketchPreset {
   Potion = 'Potion',

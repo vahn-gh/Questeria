@@ -1,7 +1,7 @@
 import Realm from 'realm'
 import { singleton } from 'tsyringe'
 
-import { QuestsSchema } from 'src/schemas/QuestsSchema'
+import { QuestsSchema } from 'src/quests/services/QuestsSchema'
 
 import { DatabaseAppStateListener } from './DatabaseAppStateListener'
 

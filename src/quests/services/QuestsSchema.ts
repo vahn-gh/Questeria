@@ -1,6 +1,5 @@
 import Realm, { ObjectSchema } from 'realm'
-
-import { QuestSketchKind, QuestSketchPreset } from 'shared/types/Quests'
+import { QuestSketchKind, QuestSketchPreset } from 'src/quests/types/Quests'
 
 export class QuestsSchema extends Realm.Object<QuestsSchema> {
   id!: string
