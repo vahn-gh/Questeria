@@ -1,3 +1,5 @@
+export type UniqueID = string
+
 type PrettifyObj<T> = { [K in keyof T]: T[K] } & {}
 /** helper for arrays / tuples so their element type is also deep-expanded */
 type PrettifyArray<A> = A extends readonly (infer U)[]
