@@ -10,6 +10,7 @@ import { Screens } from 'shared/navigation/types/Screens'
 import { CommonStyles } from 'shared/theme/commonStyles'
 
 import { ApplicationErrorBoundary } from './ErrorBoundary'
+import { SplashScreen } from './SplashScreen'
 import { Typography } from './Typography'
 
 function App() {
@@ -48,7 +49,12 @@ const DevFunctions = () => {
 }
 
 const Load = () => {
-  return <ApplicationErrorBoundary />
+  return (
+    <>
+      <ApplicationErrorBoundary />
+      <SplashScreen />
+    </>
+  )
 }
 
 const ss = StyleSheet.create({
