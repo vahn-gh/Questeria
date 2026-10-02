@@ -35,7 +35,8 @@
     "react-native-svg": "15.15.5",
     "react-native-unistyles": "3.2.5",
     "react-native-worklets": "0.12.1",
-    "realm": "20.2.0"
+    "realm": "20.2.0",
+    "tsyringe": "4.10.0"
   },
   "devDependencies": {
     "@babel/core": "7.25.2",

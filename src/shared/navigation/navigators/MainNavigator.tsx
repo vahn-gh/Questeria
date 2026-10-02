@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { DevDesignReference } from 'src/screens/DevDesignReference'
-import { QuestsScreen } from 'src/screens/QuestsScreen'
+import { DevDesignReference } from 'src/quests/screens/DevDesignReference'
+import { QuestsScreen } from 'src/quests/screens/QuestsScreen'
 
 import { RootStackParamList } from '../types/NavigationParams'
 import { Screens } from '../types/Screens'

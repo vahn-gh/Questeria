@@ -59,6 +59,7 @@ class ExtendedMMKV extends AbstractMMKV {
   getObj<T extends object>(name: string): T | undefined {
     try {
       const response = this.getString(name)
+
       return response !== undefined ? JSON.parse(response) : undefined
     } catch (err) {
       ErrorAPI.show(err)

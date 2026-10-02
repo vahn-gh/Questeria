@@ -1,0 +1,2 @@
+export const QUEST_LABEL_LENGTH = 32
+export const QUEST_PERCENTAGE_RANGE = 100
