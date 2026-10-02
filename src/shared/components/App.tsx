@@ -1,3 +1,5 @@
+import '@abraham/reflection'
+
 import { Pressable } from 'react-native'
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler'

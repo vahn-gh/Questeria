@@ -43,5 +43,6 @@ export const Icon = ({
       </TouchableOpacity>
     )
   }
+
   return <IconFromMap style={style} height={size} width={size} {...fillProp} />
 }

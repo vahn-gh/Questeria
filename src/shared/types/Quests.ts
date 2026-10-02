@@ -26,7 +26,7 @@ export type QuestSketch = QuestPresetSketch | QuestDrawnSketch
 export interface Quest {
   id: UniqueID
   label: string
-  description: string
+  description?: string
   percentage: number
   sketch: QuestSketch
   xp: number

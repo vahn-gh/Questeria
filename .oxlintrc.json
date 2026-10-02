@@ -59,7 +59,7 @@
         "block-scoped-var": "off",
         "complexity": "off",
         "default-case": "off",
-        "eqeqeq": ["error", "smart"],
+        "eqeqeq": ["error", "always"],
         "guard-for-in": "error",
         "no-alert": "warn",
         "no-caller": "error",

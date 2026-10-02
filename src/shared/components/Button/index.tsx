@@ -127,18 +127,17 @@ export const Button: React.FC<Props> = ({
 
         const stateConfig = config[state]
 
+        const pixelBoxOptions = {
+          backgroundColor: stateConfig.fillColor
+            ? colors[stateConfig.fillColor]
+            : undefined,
+          outlineColor: colors.Outline,
+          bevel: Boolean(stateConfig.bevel),
+          ...PIXEL_BOX_OPTIONS,
+        }
+
         return (
-          <PixelViewBox
-            style={buttonStyle}
-            options={{
-              backgroundColor: stateConfig.fillColor
-                ? colors[stateConfig.fillColor]
-                : undefined,
-              outlineColor: colors.Outline,
-              bevel: Boolean(stateConfig.bevel),
-              ...PIXEL_BOX_OPTIONS,
-            }}
-          >
+          <PixelViewBox style={buttonStyle} options={pixelBoxOptions}>
             <Typography numberOfLines={1} type="h5" color={textColor}>
               {children}
             </Typography>
