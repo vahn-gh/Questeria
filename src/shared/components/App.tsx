@@ -54,6 +54,7 @@ const Load = () => {
   return (
     <>
       <ApplicationErrorBoundary />
+
       <SplashScreen />
     </>
   )
