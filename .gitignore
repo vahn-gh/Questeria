@@ -96,3 +96,6 @@ e2e-failures
 
 # Local library workspaces (published independently)
 /libraries/
+
+# Local docs
+.docs/
