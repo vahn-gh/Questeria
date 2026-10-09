@@ -1,14 +1,14 @@
 import Realm, { ObjectSchema } from 'realm'
 
-import { QuestChangeType } from '../types/QuestChange'
+import { QuestSyncType } from '../../types/QuestSync'
 
-export class QuestChangeSchema extends Realm.Object<QuestChangeSchema> {
+export class QuestSyncSchema extends Realm.Object<QuestSyncSchema> {
   questId!: string
-  type!: QuestChangeType
+  type!: QuestSyncType
   queuedAt!: Date
 
   static schema: ObjectSchema = {
-    name: 'QuestChange',
+    name: 'QuestSync',
     primaryKey: 'questId',
     properties: {
       questId: 'string',

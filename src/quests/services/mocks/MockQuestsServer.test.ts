@@ -1,6 +1,6 @@
-import { QuestChangeType } from '../types/QuestChange'
+import { QuestSyncType } from '../../types/QuestSync'
 import { MockQuestsServer } from './MockQuestsServer'
-import { QuestChangeRequest } from './QuestRest'
+import { QuestSyncRequest } from '../rest/QuestRest'
 
 const PAGE_LIMIT = 20
 const SEEDED_QUESTS_COUNT = 50
@@ -49,21 +49,21 @@ describe('MockQuestsServer', () => {
     expect(page.hasMore).toBe(false)
   })
 
-  it('returns only the pushed changes after a push', () => {
+  it('returns only the pushed syncs after a push', () => {
     const { pages, token } = pullAll(server)
     const [first, second] = pages[0].quests
-    const changes: QuestChangeRequest[] = [
+    const syncs: QuestSyncRequest[] = [
       {
-        type: QuestChangeType.Upsert,
+        type: QuestSyncType.Upsert,
         quest: { ...first, label: 'Edited' },
       },
       {
-        type: QuestChangeType.Delete,
+        type: QuestSyncType.Delete,
         id: second.id,
       },
     ]
 
-    server.push(changes)
+    server.push(syncs)
     const page = server.pull(token, PAGE_LIMIT)
 
     expect(page.quests.map(quest => quest.id)).toEqual([first.id])
@@ -76,25 +76,25 @@ describe('MockQuestsServer', () => {
   it('returns a quest edited twice once', () => {
     const { pages, token } = pullAll(server)
     const [quest] = pages[0].quests
-    const changes: QuestChangeRequest[] = [
+    const syncs: QuestSyncRequest[] = [
       {
-        type: QuestChangeType.Upsert,
+        type: QuestSyncType.Upsert,
         quest: { ...quest, label: 'First edit' },
       },
       {
-        type: QuestChangeType.Upsert,
+        type: QuestSyncType.Upsert,
         quest: { ...quest, label: 'Second edit' },
       },
     ]
 
-    server.push(changes)
+    server.push(syncs)
     const page = server.pull(token, PAGE_LIMIT)
 
     expect(page.quests).toHaveLength(1)
     expect(page.quests[0].label).toBe('Second edit')
   })
 
-  it('throws on a token that is not a change number', () => {
+  it('throws on a token that is not a sync number', () => {
     expect(() => server.pull(btoa('abc'), PAGE_LIMIT)).toThrow(
       'Invalid sync token'
     )

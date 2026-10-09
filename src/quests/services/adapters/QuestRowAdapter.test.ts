@@ -1,6 +1,6 @@
 import { container } from 'tsyringe'
 
-import { Quest, QuestSketchKind, QuestSketchPreset } from '../types/Quests'
+import { Quest, QuestSketchKind, QuestSketchPreset } from '../../types/Quests'
 import { QuestRowAdapter } from './QuestRowAdapter'
 
 const CREATED_AT = new Date('2026-10-01T10:00:00Z')

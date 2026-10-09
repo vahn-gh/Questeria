@@ -1,9 +1,9 @@
 import { singleton } from 'tsyringe'
 
-import { QUEST_PERCENTAGE_RANGE } from '../constants/constraints'
-import { Quest, QuestSketchKind, QuestSketchPreset } from '../types/Quests'
-import { QuestChangeType } from '../types/QuestChange'
-import { PullQuestsResponse, QuestChangeRequest } from './QuestRest'
+import { QUEST_PERCENTAGE_RANGE } from '../../constants/constraints'
+import { Quest, QuestSketchKind, QuestSketchPreset } from '../../types/Quests'
+import { QuestSyncType } from '../../types/QuestSync'
+import { PullQuestsResponse, QuestSyncRequest } from '../rest/QuestRest'
 
 const MOCK_QUESTS_COUNT = 50
 const MOCK_PERCENTAGE_STEP = 7
@@ -13,7 +13,7 @@ const MOCK_CREATED_AT_STEP_MS = 60 * 1000
 
 export const MOCK_LATENCY_MS = 300
 
-interface ChangeLogEntry {
+interface SyncLogEntry {
   number: number
   questId: string
 }
@@ -62,22 +62,22 @@ const encodeToken = (number: number): string => btoa(String(number))
 @singleton()
 export class MockQuestsServer {
   private readonly quests = new Map<string, Quest>()
-  private readonly changeLog: ChangeLogEntry[] = []
+  private readonly syncLog: SyncLogEntry[] = []
 
   constructor() {
     for (let index = 0; index < MOCK_QUESTS_COUNT; index++) {
       const quest = createSeedQuest(index)
 
       this.quests.set(quest.id, quest)
-      this.logChange(quest.id)
+      this.logSync(quest.id)
     }
   }
 
   pull(since: string | null, limit: number): PullQuestsResponse {
     const sinceNumber = decodeToken(since)
-    const latestByQuest = new Map<string, ChangeLogEntry>()
+    const latestByQuest = new Map<string, SyncLogEntry>()
 
-    for (const entry of this.changeLog) {
+    for (const entry of this.syncLog) {
       if (entry.number > sinceNumber) {
         latestByQuest.delete(entry.questId)
         latestByQuest.set(entry.questId, entry)
@@ -93,7 +93,7 @@ export class MockQuestsServer {
       const quest = this.quests.get(questId)
 
       if (quest) {
-        quests.push({ ...quest })
+        quests.push(quest)
       } else {
         deletedIds.push(questId)
       }
@@ -110,27 +110,29 @@ export class MockQuestsServer {
     }
   }
 
-  push(changes: QuestChangeRequest[]): void {
-    for (const change of changes) {
-      if (change.type === QuestChangeType.Upsert) {
-        this.quests.set(change.quest.id, {
-          ...change.quest,
+  push(syncs: QuestSyncRequest[]): void {
+    for (const sync of syncs) {
+      if (sync.type === QuestSyncType.Upsert) {
+        const quest: Quest = {
+          ...sync.quest,
           updatedAt: new Date(),
-        })
-        this.logChange(change.quest.id)
+        }
+
+        this.quests.set(quest.id, quest)
+        this.logSync(quest.id)
       } else {
-        this.quests.delete(change.id)
-        this.logChange(change.id)
+        this.quests.delete(sync.id)
+        this.logSync(sync.id)
       }
     }
   }
 
-  private logChange(questId: string) {
-    const entry: ChangeLogEntry = {
-      number: this.changeLog.length + 1,
+  private logSync(questId: string) {
+    const entry: SyncLogEntry = {
+      number: this.syncLog.length + 1,
       questId,
     }
 
-    this.changeLog.push(entry)
+    this.syncLog.push(entry)
   }
 }

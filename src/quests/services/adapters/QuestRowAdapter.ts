@@ -2,8 +2,8 @@ import { singleton } from 'tsyringe'
 
 import { isNotNull } from 'shared/utils/isNotNull'
 
-import { Quest, QuestSketch, QuestSketchKind } from '../types/Quests'
-import type { QuestsSchema } from './QuestsSchema'
+import { Quest, QuestSketch, QuestSketchKind } from '../../types/Quests'
+import type { QuestsSchema } from '../schemas/QuestsSchema'
 
 export type QuestRow = Pick<
   QuestsSchema,
