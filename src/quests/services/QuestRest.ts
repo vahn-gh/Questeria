@@ -1,43 +1,36 @@
-import { singleton } from 'tsyringe'
+import { container, singleton } from 'tsyringe'
 
 import { AbstractRest } from 'shared/services/AbstractRest'
 
+import { QUESTS_PULL_LIMIT } from '../constants/constraints'
+import { QuestChangeType } from '../types/QuestChange'
 import { Quest } from '../types/Quests'
-import { MOCK_LATENCY_MS, MOCK_QUESTS } from './mockQuests'
+import { MOCK_LATENCY_MS, MockQuestsServer } from './MockQuestsServer'
 
-export interface GetQuestsRequest {
-  cursor: string | null
-  limit: number
+export interface PullQuestsResponse {
+  quests: Quest[]
+  deletedIds: string[]
+  nextToken: string
+  hasMore: boolean
 }
 
-export interface GetQuestsResponse {
-  items: Quest[]
-  nextCursor: string | null
-}
+export type QuestChangeRequest =
+  | { type: QuestChangeType.Upsert; quest: Quest }
+  | { type: QuestChangeType.Delete; id: string }
+
+const waitMockLatency = () =>
+  new Promise<void>(resolve => setTimeout(resolve, MOCK_LATENCY_MS))
 
 @singleton()
 export class QuestRest extends AbstractRest {
-  async getQuests({
-    cursor,
-    limit,
-  }: GetQuestsRequest): Promise<GetQuestsResponse> {
-    await new Promise<void>(resolve => setTimeout(resolve, MOCK_LATENCY_MS))
+  async pullQuests(since: string | null): Promise<PullQuestsResponse> {
+    await waitMockLatency()
 
-    const start =
-      cursor === null
-        ? 0
-        : MOCK_QUESTS.findIndex(quest => quest.id === cursor) + 1
+    return container.resolve(MockQuestsServer).pull(since, QUESTS_PULL_LIMIT)
+  }
 
-    if (cursor !== null && start === 0) {
-      throw new Error('Invalid cursor')
-    }
-
-    const items = MOCK_QUESTS.slice(start, start + limit)
-    const hasMore = start + limit < MOCK_QUESTS.length
-
-    return {
-      items,
-      nextCursor: hasMore ? items[items.length - 1].id : null,
-    }
+  async pushQuestChanges(changes: QuestChangeRequest[]): Promise<void> {
+    await waitMockLatency()
+    container.resolve(MockQuestsServer).push(changes)
   }
 }
