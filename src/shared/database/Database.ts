@@ -1,8 +1,9 @@
 import Realm from 'realm'
 import { singleton } from 'tsyringe'
 
-import { QuestsFeedMetaSchema } from 'src/quests/services/QuestsFeedMetaSchema'
+import { QuestChangeSchema } from 'src/quests/services/QuestChangeSchema'
 import { QuestsSchema } from 'src/quests/services/QuestsSchema'
+import { SyncMetaSchema } from 'src/quests/services/SyncMetaSchema'
 
 import { DatabaseAppStateListener } from './DatabaseAppStateListener'
 
@@ -39,8 +40,8 @@ export class Database {
 
       this.dbInstance = await Realm.open({
         path: DATABASE_FILE_NAME,
-        schema: [QuestsSchema, QuestsFeedMetaSchema],
-        schemaVersion: 2,
+        schema: [QuestsSchema, QuestChangeSchema, SyncMetaSchema],
+        schemaVersion: 3,
         deleteRealmIfMigrationNeeded: true,
       })
       console.info('[DB] Database open!')

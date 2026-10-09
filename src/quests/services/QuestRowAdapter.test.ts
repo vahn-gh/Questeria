@@ -3,7 +3,8 @@ import { container } from 'tsyringe'
 import { Quest, QuestSketchKind, QuestSketchPreset } from '../types/Quests'
 import { QuestRowAdapter } from './QuestRowAdapter'
 
-const QUEST_POSITION = 3
+const CREATED_AT = new Date('2026-10-01T10:00:00Z')
+const UPDATED_AT = new Date('2026-10-02T10:00:00Z')
 
 const PRESET_QUEST: Quest = {
   id: 'quest-preset',
@@ -14,6 +15,7 @@ const PRESET_QUEST: Quest = {
     preset: QuestSketchPreset.Potion,
   },
   xp: 120,
+  createdAt: CREATED_AT,
 }
 
 const PRESET_QUEST_WITH_DESCRIPTION: Quest = {
@@ -31,6 +33,8 @@ const DRAWN_QUEST: Quest = {
     drawing: 'ZHJhd2luZw==',
   },
   xp: 300,
+  createdAt: CREATED_AT,
+  updatedAt: UPDATED_AT,
 }
 
 const DRAWN_QUEST_WITH_DESCRIPTION: Quest = {
@@ -50,20 +54,14 @@ describe('QuestRowAdapter', () => {
   const adapter = container.resolve(QuestRowAdapter)
 
   it.each(QUESTS)('keeps "$label" unchanged after a round trip', quest => {
-    const row = adapter.formatToRealm(quest, QUEST_POSITION)
+    const row = adapter.formatToRealm(quest)
 
     expect(adapter.formatToQuest(row)).toEqual(quest)
   })
 
-  it('stores the position in the row', () => {
-    const row = adapter.formatToRealm(PRESET_QUEST, QUEST_POSITION)
-
-    expect(row.position).toBe(QUEST_POSITION)
-  })
-
   it('throws when a Drawn row has no drawing', () => {
     const row = {
-      ...adapter.formatToRealm(DRAWN_QUEST, QUEST_POSITION),
+      ...adapter.formatToRealm(DRAWN_QUEST),
       sketchDrawing: undefined,
     }
 

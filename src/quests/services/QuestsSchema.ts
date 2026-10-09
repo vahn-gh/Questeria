@@ -12,7 +12,8 @@ export class QuestsSchema extends Realm.Object<QuestsSchema> {
   sketchPreset?: QuestSketchPreset
   // set when sketchKind is Drawn, base64 of PKDrawing data
   sketchDrawing?: string
-  position!: number
+  createdAt!: Date
+  updatedAt?: Date
 
   static schema: ObjectSchema = {
     name: 'Quest',
@@ -32,10 +33,11 @@ export class QuestsSchema extends Realm.Object<QuestsSchema> {
       sketchKind: 'string',
       sketchPreset: 'string?',
       sketchDrawing: 'string?',
-      position: {
-        type: 'int',
+      createdAt: {
+        type: 'date',
         indexed: true,
       },
+      updatedAt: 'date?',
     },
   }
 }

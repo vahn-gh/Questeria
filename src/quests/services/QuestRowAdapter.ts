@@ -15,12 +15,13 @@ export type QuestRow = Pick<
   | 'sketchKind'
   | 'sketchPreset'
   | 'sketchDrawing'
-  | 'position'
+  | 'createdAt'
+  | 'updatedAt'
 >
 
 @singleton()
 export class QuestRowAdapter {
-  formatToRealm(quest: Quest, position: number): QuestRow {
+  formatToRealm(quest: Quest): QuestRow {
     const { sketch } = quest
 
     return {
@@ -34,7 +35,8 @@ export class QuestRowAdapter {
         sketch.kind === QuestSketchKind.Preset ? sketch.preset : undefined,
       sketchDrawing:
         sketch.kind === QuestSketchKind.Drawn ? sketch.drawing : undefined,
-      position,
+      createdAt: quest.createdAt,
+      updatedAt: quest.updatedAt,
     }
   }
 
@@ -46,6 +48,8 @@ export class QuestRowAdapter {
       percentage: data.percentage,
       sketch: this.formatSketch(data),
       xp: data.xp,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt ?? undefined,
     }
   }
 

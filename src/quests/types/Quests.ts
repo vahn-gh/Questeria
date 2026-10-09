@@ -30,4 +30,9 @@ export interface Quest {
   percentage: number
   sketch: QuestSketch
   xp: number
+  createdAt: Date
+  // missing until the server has saved the quest
+  updatedAt?: Date
 }
+
+export type QuestDraft = Omit<Quest, 'id' | 'createdAt' | 'updatedAt'>
