@@ -1,7 +1,7 @@
 import Realm from 'realm'
 import { singleton } from 'tsyringe'
 
-import { QuestSyncSchema } from 'src/quests/services/schemas/QuestSyncSchema'
+import { QuestOutboxSchema } from 'src/quests/services/schemas/QuestOutboxSchema'
 import { QuestsSchema } from 'src/quests/services/schemas/QuestsSchema'
 import { SyncMetaSchema } from 'src/quests/services/schemas/SyncMetaSchema'
 
@@ -40,8 +40,8 @@ export class Database {
 
       this.dbInstance = await Realm.open({
         path: DATABASE_FILE_NAME,
-        schema: [QuestsSchema, QuestSyncSchema, SyncMetaSchema],
-        schemaVersion: 4,
+        schema: [QuestsSchema, QuestOutboxSchema, SyncMetaSchema],
+        schemaVersion: 5,
         deleteRealmIfMigrationNeeded: true,
       })
       console.info('[DB] Database open!')

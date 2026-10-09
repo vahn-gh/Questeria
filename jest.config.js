@@ -1,5 +1,9 @@
 module.exports = {
   preset: '@react-native/jest-preset',
+  // mobx resolves to its ESM build under the react-native export condition
+  transformIgnorePatterns: [
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?|mobx)/)',
+  ],
   testMatch: ['<rootDir>/{__tests__,src}/**/*.{spec,test}.{js,jsx,ts,tsx}'],
   moduleNameMapper: {
     '^@types(.*)$': ['src/@types/*'],

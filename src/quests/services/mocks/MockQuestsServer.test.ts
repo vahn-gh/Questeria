@@ -1,6 +1,6 @@
-import { QuestSyncType } from '../../types/QuestSync'
+import { LocalUpdateType } from '../../types/QuestSync'
 import { MockQuestsServer } from './MockQuestsServer'
-import { QuestSyncRequest } from '../rest/QuestRest'
+import { LocalUpdate } from '../rest/QuestRest'
 
 const PAGE_LIMIT = 20
 const SEEDED_QUESTS_COUNT = 50
@@ -14,7 +14,7 @@ const pullAll = (server: MockQuestsServer) => {
     const page = server.pull(token, PAGE_LIMIT)
 
     pages.push(page)
-    token = page.nextToken
+    token = page.nextSyncToken
     hasMore = page.hasMore
   }
 
@@ -45,20 +45,20 @@ describe('MockQuestsServer', () => {
 
     expect(page.quests).toEqual([])
     expect(page.deletedIds).toEqual([])
-    expect(page.nextToken).toBe(token)
+    expect(page.nextSyncToken).toBe(token)
     expect(page.hasMore).toBe(false)
   })
 
   it('returns only the pushed syncs after a push', () => {
     const { pages, token } = pullAll(server)
     const [first, second] = pages[0].quests
-    const syncs: QuestSyncRequest[] = [
+    const syncs: LocalUpdate[] = [
       {
-        type: QuestSyncType.Upsert,
+        type: LocalUpdateType.Upsert,
         quest: { ...first, label: 'Edited' },
       },
       {
-        type: QuestSyncType.Delete,
+        type: LocalUpdateType.Delete,
         id: second.id,
       },
     ]
@@ -76,13 +76,13 @@ describe('MockQuestsServer', () => {
   it('returns a quest edited twice once', () => {
     const { pages, token } = pullAll(server)
     const [quest] = pages[0].quests
-    const syncs: QuestSyncRequest[] = [
+    const syncs: LocalUpdate[] = [
       {
-        type: QuestSyncType.Upsert,
+        type: LocalUpdateType.Upsert,
         quest: { ...quest, label: 'First edit' },
       },
       {
-        type: QuestSyncType.Upsert,
+        type: LocalUpdateType.Upsert,
         quest: { ...quest, label: 'Second edit' },
       },
     ]

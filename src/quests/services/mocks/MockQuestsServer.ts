@@ -2,8 +2,8 @@ import { singleton } from 'tsyringe'
 
 import { QUEST_PERCENTAGE_RANGE } from '../../constants/constraints'
 import { Quest, QuestSketchKind, QuestSketchPreset } from '../../types/Quests'
-import { QuestSyncType } from '../../types/QuestSync'
-import { PullQuestsResponse, QuestSyncRequest } from '../rest/QuestRest'
+import { LocalUpdateType } from '../../types/QuestSync'
+import { QuestsBatch, LocalUpdate } from '../rest/QuestRest'
 
 const MOCK_QUESTS_COUNT = 50
 const MOCK_PERCENTAGE_STEP = 7
@@ -73,7 +73,7 @@ export class MockQuestsServer {
     }
   }
 
-  pull(since: string | null, limit: number): PullQuestsResponse {
+  pull(since: string | null, limit: number): QuestsBatch {
     const sinceNumber = decodeToken(since)
     const latestByQuest = new Map<string, SyncLogEntry>()
 
@@ -105,14 +105,14 @@ export class MockQuestsServer {
     return {
       quests,
       deletedIds,
-      nextToken: encodeToken(lastNumber),
+      nextSyncToken: encodeToken(lastNumber),
       hasMore: pending.length > page.length,
     }
   }
 
-  push(syncs: QuestSyncRequest[]): void {
+  push(syncs: LocalUpdate[]): void {
     for (const sync of syncs) {
-      if (sync.type === QuestSyncType.Upsert) {
+      if (sync.type === LocalUpdateType.Upsert) {
         const quest: Quest = {
           ...sync.quest,
           updatedAt: new Date(),

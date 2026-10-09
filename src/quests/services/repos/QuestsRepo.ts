@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { AbstractRepo } from 'shared/database/AbstractRepo'
 
 import { QUESTS_PAGE_SIZE } from '../../constants/constraints'
-import { QuestSyncType } from '../../types/QuestSync'
+import { LocalUpdateType } from '../../types/QuestSync'
 import { Quest, QuestDraft } from '../../types/Quests'
 import { QuestOutbox } from '../dao/QuestOutbox'
 import { QuestRowAdapter } from '../adapters/QuestRowAdapter'
@@ -80,7 +80,7 @@ export class QuestsRepo extends AbstractRepo {
 
     realm.write(() => {
       this.questRows.save(realm, quest)
-      this.questOutbox.queue(realm, quest.id, QuestSyncType.Upsert)
+      this.questOutbox.queue(realm, quest.id, LocalUpdateType.Upsert)
     })
 
     return quest
@@ -91,7 +91,7 @@ export class QuestsRepo extends AbstractRepo {
 
     realm.write(() => {
       this.questRows.save(realm, quest)
-      this.questOutbox.queue(realm, quest.id, QuestSyncType.Upsert)
+      this.questOutbox.queue(realm, quest.id, LocalUpdateType.Upsert)
     })
   }
 
@@ -100,7 +100,7 @@ export class QuestsRepo extends AbstractRepo {
 
     realm.write(() => {
       this.questRows.remove(realm, id)
-      this.questOutbox.queue(realm, id, QuestSyncType.Delete)
+      this.questOutbox.queue(realm, id, LocalUpdateType.Delete)
     })
   }
 

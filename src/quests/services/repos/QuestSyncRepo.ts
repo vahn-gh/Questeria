@@ -4,13 +4,12 @@ import { container, singleton } from 'tsyringe'
 import { AbstractRepo } from 'shared/database/AbstractRepo'
 import { isNotNull } from 'shared/utils/isNotNull'
 
-import { QuestSyncType } from '../../types/QuestSync'
-import { Quest } from '../../types/Quests'
+import { LocalUpdateType, ServerSnapshot } from '../../types/QuestSync'
 import { QuestOutbox } from '../dao/QuestOutbox'
-import { PullQuestsResponse, QuestSyncRequest } from '../rest/QuestRest'
+import { QuestsBatch, LocalUpdate } from '../rest/QuestRest'
 import { QuestRowAdapter } from '../adapters/QuestRowAdapter'
 import { QuestRows } from '../dao/QuestRows'
-import { QuestSyncSchema } from '../schemas/QuestSyncSchema'
+import { QuestOutboxSchema } from '../schemas/QuestOutboxSchema'
 import { QuestsSchema } from '../schemas/QuestsSchema'
 import {
   SYNC_META_ID,
@@ -18,13 +17,13 @@ import {
   SyncMetaSchema,
 } from '../schemas/SyncMetaSchema'
 
-export interface PendingQuestSync {
-  request: QuestSyncRequest
+export interface QueuedLocalUpdate {
+  update: LocalUpdate
   queuedAt: Date
 }
 
-const getRequestQuestId = (request: QuestSyncRequest) =>
-  request.type === QuestSyncType.Upsert ? request.quest.id : request.id
+const getLocalUpdateQuestId = (update: LocalUpdate) =>
+  update.type === LocalUpdateType.Upsert ? update.quest.id : update.id
 
 @singleton()
 export class QuestSyncRepo extends AbstractRepo {
@@ -46,34 +45,34 @@ export class QuestSyncRepo extends AbstractRepo {
     }
   }
 
-  async loadPendingSyncs(): Promise<PendingQuestSync[]> {
+  async loadLocalUpdates(): Promise<QueuedLocalUpdate[]> {
     const realm = await this.getAvailableInstance()
-    const pending = realm.objects(QuestSyncSchema).map(row => {
-      const request = this.buildSyncRequest(realm, row)
+    const queuedUpdates = realm.objects(QuestOutboxSchema).map(row => {
+      const update = this.buildLocalUpdate(realm, row)
 
-      if (request === null) {
+      if (update === null) {
         return null
       }
 
-      const pendingSync: PendingQuestSync = {
-        request,
+      const queuedUpdate: QueuedLocalUpdate = {
+        update,
         queuedAt: row.queuedAt,
       }
 
-      return pendingSync
+      return queuedUpdate
     })
 
-    return pending.filter(isNotNull)
+    return queuedUpdates.filter(isNotNull)
   }
 
-  async removeSentSyncs(sent: PendingQuestSync[]): Promise<void> {
+  async removeSentLocalUpdates(sent: QueuedLocalUpdate[]): Promise<void> {
     const realm = await this.getAvailableInstance()
 
     realm.write(() => {
-      sent.forEach(({ request, queuedAt }) => {
+      sent.forEach(({ update, queuedAt }) => {
         const row = realm.objectForPrimaryKey(
-          QuestSyncSchema,
-          getRequestQuestId(request)
+          QuestOutboxSchema,
+          getLocalUpdateQuestId(update)
         )
 
         if (row !== null && row.queuedAt.getTime() === queuedAt.getTime()) {
@@ -83,28 +82,28 @@ export class QuestSyncRepo extends AbstractRepo {
     })
   }
 
-  async mergeServerChanges(changes: PullQuestsResponse): Promise<void> {
+  async mergeBatch(batch: QuestsBatch): Promise<void> {
     const realm = await this.getAvailableInstance()
 
     realm.write(() => {
       const queuedIds = this.questOutbox.getQueuedIds(realm)
 
-      changes.quests
+      batch.quests
         .filter(quest => !queuedIds.has(quest.id))
         .forEach(quest => this.questRows.save(realm, quest))
 
-      changes.deletedIds
+      batch.deletedIds
         .filter(id => !queuedIds.has(id))
         .forEach(id => this.questRows.remove(realm, id))
 
-      this.saveSyncMeta(realm, changes.nextToken, !changes.hasMore)
+      this.saveSyncMeta(realm, batch.nextSyncToken, !batch.hasMore)
     })
   }
 
-  async replaceWithServerSnapshot(
-    quests: Quest[],
-    token: string
-  ): Promise<void> {
+  async replaceWithServerSnapshot({
+    quests,
+    syncToken,
+  }: ServerSnapshot): Promise<void> {
     const realm = await this.getAvailableInstance()
 
     realm.write(() => {
@@ -119,17 +118,17 @@ export class QuestSyncRepo extends AbstractRepo {
         .filter(quest => !queuedIds.has(quest.id))
         .forEach(quest => this.questRows.save(realm, quest))
 
-      this.saveSyncMeta(realm, token, true)
+      this.saveSyncMeta(realm, syncToken, true)
     })
   }
 
-  private buildSyncRequest(
+  private buildLocalUpdate(
     realm: Realm,
-    row: QuestSyncSchema
-  ): QuestSyncRequest | null {
-    if (row.type === QuestSyncType.Delete) {
+    row: QuestOutboxSchema
+  ): LocalUpdate | null {
+    if (row.type === LocalUpdateType.Delete) {
       return {
-        type: QuestSyncType.Delete,
+        type: LocalUpdateType.Delete,
         id: row.questId,
       }
     }
@@ -141,19 +140,19 @@ export class QuestSyncRepo extends AbstractRepo {
     }
 
     return {
-      type: QuestSyncType.Upsert,
+      type: LocalUpdateType.Upsert,
       quest: this.questRowAdapter.formatToQuest(questRow),
     }
   }
 
-  // syncedAt marks a finished pull, so it stays unchanged until the last page
-  private saveSyncMeta(realm: Realm, syncToken: string, isPullDone: boolean) {
+  // syncedAt marks a finished fetch, so it stays unchanged until the last batch
+  private saveSyncMeta(realm: Realm, syncToken: string, isLastBatch: boolean) {
     const meta: Partial<SyncMetaSchema> = {
       id: SYNC_META_ID,
       syncToken,
     }
 
-    if (isPullDone) {
+    if (isLastBatch) {
       meta.syncedAt = new Date()
     }
 

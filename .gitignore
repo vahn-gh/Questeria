@@ -44,6 +44,7 @@ local.properties
 
 # Claude Code
 .claude/
+CLAUDE.local.md
 
 # Nova IDE
 .nova

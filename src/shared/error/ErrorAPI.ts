@@ -30,6 +30,12 @@ export class ErrorAPI {
     console.error(parsedError.message)
   }
 
+  static log(error: InputErrorType) {
+    const parsedError = ErrorAPI.parseError(error)
+
+    console.warn(parsedError.message)
+  }
+
   private static parseError(
     error: InputErrorType,
     options?: ErrorParseOptions

@@ -1,23 +1,23 @@
 import Realm, { UpdateMode } from 'realm'
 import { singleton } from 'tsyringe'
 
-import { QuestSyncType } from '../../types/QuestSync'
-import { QuestSyncSchema } from '../schemas/QuestSyncSchema'
+import { LocalUpdateType } from '../../types/QuestSync'
+import { QuestOutboxSchema } from '../schemas/QuestOutboxSchema'
 
 // Must be called inside realm.write opened by a repo
 @singleton()
 export class QuestOutbox {
-  queue(realm: Realm, questId: string, type: QuestSyncType) {
-    const sync = {
+  queue(realm: Realm, questId: string, type: LocalUpdateType) {
+    const outboxRow = {
       questId,
       type,
       queuedAt: new Date(),
     }
 
-    realm.create(QuestSyncSchema, sync, UpdateMode.Modified)
+    realm.create(QuestOutboxSchema, outboxRow, UpdateMode.Modified)
   }
 
   getQueuedIds(realm: Realm) {
-    return new Set(realm.objects(QuestSyncSchema).map(row => row.questId))
+    return new Set(realm.objects(QuestOutboxSchema).map(row => row.questId))
   }
 }
