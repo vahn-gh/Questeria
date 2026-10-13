@@ -91,6 +91,7 @@ config/BACKEND
 .maestro
 e2e-failures
 ``
+.tmp
 
 # Random
 .local

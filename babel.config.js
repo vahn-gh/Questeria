@@ -11,6 +11,7 @@ module.exports = {
     ],
   ],
   plugins: [
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
     [
       'module-resolver',
       {
@@ -33,9 +34,4 @@ module.exports = {
     // Caution: react-native-worklets/plugin has to be listed last.
     'react-native-worklets/plugin',
   ],
-  env: {
-    test: {
-      plugins: [['@babel/plugin-proposal-decorators', { legacy: true }]],
-    },
-  },
 }

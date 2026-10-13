@@ -15,7 +15,10 @@ pre-commit:
 
     oxlint:
       glob: "*.{js,ts,jsx,tsx}"
-      exclude: "scripts/**"
+      exclude:
+        - "scripts/**"
+        - "metro.config.js"
+        - "babel.config.js"
       run: yarn oxlint {staged_files}
 
 commit-msg:
