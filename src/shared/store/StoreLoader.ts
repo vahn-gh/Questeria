@@ -13,7 +13,7 @@ export class StoreLoader {
   async loadData() {
     await container.resolve(Database).openConnection()
 
-    await this.questsStore.load()
+    await this.questsStore.start()
     this.networkStore.start()
     this.questsSyncStore.start()
   }

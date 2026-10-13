@@ -1,10 +1,9 @@
-import Realm, { CollectionChangeSet, OrderedCollection } from 'realm'
+import Realm from 'realm'
 import { container, singleton } from 'tsyringe'
 import { v4 as uuidv4 } from 'uuid'
 
 import { AbstractRepo } from 'shared/database/AbstractRepo'
 
-import { QUESTS_PAGE_SIZE } from '../../constants/constraints'
 import { LocalUpdateType } from '../../types/QuestSync'
 import { Quest, QuestDraft } from '../../types/Quests'
 import { QuestOutbox } from '../dao/QuestOutbox'
@@ -16,14 +15,6 @@ const QUESTS_SORT: [string, boolean][] = [
   ['createdAt', true],
   ['id', true],
 ]
-const QUESTS_AFTER_QUERY = 'createdAt < $0 OR (createdAt == $0 AND id < $1)'
-
-export interface QuestsChange {
-  deletions: number[]
-  insertions: number[]
-  modifications: number[]
-  readQuestAt: (index: number) => Quest
-}
 
 @singleton()
 export class QuestsRepo extends AbstractRepo {
@@ -31,43 +22,21 @@ export class QuestsRepo extends AbstractRepo {
   private questRows = container.resolve(QuestRows)
   private questOutbox = container.resolve(QuestOutbox)
 
-  async loadPage(after: Quest | null): Promise<Quest[]> {
+  async loadQuests(count: number): Promise<Quest[]> {
     const realm = await this.getAvailableInstance()
-    let quests = this.getSortedQuests(realm)
 
-    if (after !== null) {
-      quests = quests.filtered(QUESTS_AFTER_QUERY, after.createdAt, after.id)
-    }
-
-    return quests
-      .slice(0, QUESTS_PAGE_SIZE)
+    return this.getSortedQuests(realm)
+      .slice(0, count)
       .map(row => this.questRowAdapter.formatToQuest(row))
   }
 
-  async watchQuests(
-    listener: (change: QuestsChange) => void
-  ): Promise<() => void> {
+  async listenToQuestsChanges(onChange: () => void): Promise<() => void> {
     const realm = await this.getAvailableInstance()
-    const quests = this.getSortedQuests(realm)
+    const rows = realm.objects(QuestsSchema)
 
-    const handleChange = (
-      collection: OrderedCollection<QuestsSchema>,
-      changes: CollectionChangeSet
-    ) => {
-      const change: QuestsChange = {
-        deletions: changes.deletions,
-        insertions: changes.insertions,
-        modifications: changes.newModifications,
-        readQuestAt: index =>
-          this.questRowAdapter.formatToQuest(collection[index]),
-      }
+    rows.addListener(onChange)
 
-      listener(change)
-    }
-
-    quests.addListener(handleChange)
-
-    return () => quests.removeListener(handleChange)
+    return () => rows.removeListener(onChange)
   }
 
   async createQuest(draft: QuestDraft): Promise<Quest> {

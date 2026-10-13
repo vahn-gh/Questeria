@@ -1,5 +1,5 @@
 import NetInfo from '@react-native-community/netinfo'
-import { makeObservable, observable, runInAction } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import { container, singleton } from 'tsyringe'
 
 @singleton()
@@ -7,17 +7,20 @@ export class NetworkStore {
   isOnline = true
 
   constructor() {
-    makeObservable(this, {
+    makeObservable<this, 'setOnline'>(this, {
       isOnline: observable,
+      setOnline: action,
     })
   }
 
   start() {
     NetInfo.addEventListener(netState => {
-      runInAction(() => {
-        this.isOnline = netState.isConnected !== false
-      })
+      this.setOnline(netState.isConnected !== false)
     })
+  }
+
+  private setOnline(isOnline: boolean) {
+    this.isOnline = isOnline
   }
 }
 
