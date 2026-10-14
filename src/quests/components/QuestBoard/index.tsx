@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { Image, View } from 'react-native'
-import { StyleSheet } from 'react-native-unistyles'
 
 import { CommonStyles } from 'shared/theme/commonStyles'
 
@@ -43,17 +42,5 @@ export const QuestBoard = () => (
       style={CommonStyles.absoluteFill}
       resizeMode="cover"
     />
-    <View style={ss.edge} />
   </View>
 )
-
-const ss = StyleSheet.create(theme => ({
-  edge: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    width: 3,
-    backgroundColor: theme.colors.Primary,
-  },
-}))

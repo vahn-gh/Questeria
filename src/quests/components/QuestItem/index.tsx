@@ -28,7 +28,7 @@ export const QuestItem = observer(({ quest }: Props) => {
 
   const boxOptions = {
     backgroundColor: colors.Tertiary,
-    outlineColor: colors.Outline,
+    outlineColor: colors.Primary,
     bevel: false,
     borderWidth: 3,
     borderRadius: 4,
@@ -38,7 +38,7 @@ export const QuestItem = observer(({ quest }: Props) => {
 
   const sketchFrameOptions = {
     backgroundColor: colors.Tertiary,
-    outlineColor: colors.Outline,
+    outlineColor: colors.Primary,
     bevel: false,
     borderWidth: 2,
     borderRadius: 4,
