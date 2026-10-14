@@ -4,25 +4,39 @@ import { View } from 'react-native'
 
 import { StyleSheet } from 'react-native-unistyles'
 
-import { PotionSpin } from '../PotionAnimated'
+import { PotionSpin } from '../../../quests/components/PotionAnimated'
+import { ErrorAPI } from 'shared/error/ErrorAPI'
 import { CommonStyles } from 'shared/theme/commonStyles'
+import { useStoreLoader } from 'shared/store/StoreLoader'
 
 const REMOVE_DELAY_MS = 2500
 
 export const SplashScreen = () => {
-  const [canHide, setCanHide] = useState(false)
+  const [isDataLoaded, setDataLoaded] = useState(false)
+  const [isDelayPassed, setDelayPassed] = useState(false)
+
+  const storeLoader = useStoreLoader()
 
   useEffect(() => {
+    storeLoader
+      .loadData()
+      .catch(ErrorAPI.show)
+      .finally(() => {
+        setDataLoaded(true)
+      })
+
     const timeout = setTimeout(() => {
-      setCanHide(true)
+      setDelayPassed(true)
     }, REMOVE_DELAY_MS)
 
     return () => {
       clearTimeout(timeout)
     }
+
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (canHide) {
+  if (isDataLoaded && isDelayPassed) {
     return null
   }
 

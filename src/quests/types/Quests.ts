@@ -1,4 +1,4 @@
-import { UniqueID } from './common'
+import { UniqueID } from 'shared/types/common'
 
 export enum QuestSketchPreset {
   Potion = 'Potion',
@@ -26,8 +26,13 @@ export type QuestSketch = QuestPresetSketch | QuestDrawnSketch
 export interface Quest {
   id: UniqueID
   label: string
-  description: string
+  description?: string
   percentage: number
   sketch: QuestSketch
   xp: number
+  createdAt: Date
+  // missing until the server has saved the quest
+  updatedAt?: Date
 }
+
+export type QuestDraft = Omit<Quest, 'id' | 'createdAt' | 'updatedAt'>

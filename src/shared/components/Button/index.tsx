@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import {
+  ActivityIndicator,
   GestureResponderEvent,
   Pressable,
   PressableProps,
@@ -100,13 +101,10 @@ export const Button: React.FC<Props> = ({
 
   const config = STYLE_KEYS[type]
 
-  const hasRightIcon = Boolean(isLoading)
-
   const buttonStyle: StyleProp<ViewStyle> = [
     ss.main,
     size === 'small' && ss.small,
     size === 'medium' && ss.medium,
-    { paddingHorizontal: hasRightIcon ? 36 : 16 },
     style,
   ]
 
@@ -127,21 +125,28 @@ export const Button: React.FC<Props> = ({
 
         const stateConfig = config[state]
 
+        const pixelBoxOptions = {
+          backgroundColor: stateConfig.fillColor
+            ? colors[stateConfig.fillColor]
+            : undefined,
+          outlineColor: colors.Outline,
+          bevel: Boolean(stateConfig.bevel),
+          ...PIXEL_BOX_OPTIONS,
+        }
+
         return (
-          <PixelViewBox
-            style={buttonStyle}
-            options={{
-              backgroundColor: stateConfig.fillColor
-                ? colors[stateConfig.fillColor]
-                : undefined,
-              outlineColor: colors.Outline,
-              bevel: Boolean(stateConfig.bevel),
-              ...PIXEL_BOX_OPTIONS,
-            }}
-          >
-            <Typography numberOfLines={1} type="h5" color={textColor}>
+          <PixelViewBox style={buttonStyle} options={pixelBoxOptions}>
+            <Typography
+              numberOfLines={1}
+              type="h5"
+              color={textColor}
+              style={isLoading && ss.hiddenLabel}
+            >
               {children}
             </Typography>
+            {isLoading && (
+              <ActivityIndicator style={ss.loader} color={colors[textColor]} />
+            )}
           </PixelViewBox>
         )
       }}
@@ -157,9 +162,11 @@ const ss = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  rightIconContainer: {
+  hiddenLabel: {
+    opacity: 0,
+  },
+  loader: {
     position: 'absolute',
-    right: 16,
   },
   small: {
     height: 40,

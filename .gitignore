@@ -44,6 +44,7 @@ local.properties
 
 # Claude Code
 .claude/
+CLAUDE.local.md
 
 # Nova IDE
 .nova
@@ -90,9 +91,13 @@ config/BACKEND
 .maestro
 e2e-failures
 ``
+.tmp
 
 # Random
 .local
 
 # Local library workspaces (published independently)
 /libraries/
+
+# Local docs
+.docs/

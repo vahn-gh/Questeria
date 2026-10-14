@@ -62,6 +62,7 @@ export const generateSpacingStyles = () => {
         [SPACING_NAME_MAP[name]]: rangeValue,
       } as SpacingEntry<typeof name>
     })
+
     return acc
   }, {} as Prettify<ISpacing>)
 }
