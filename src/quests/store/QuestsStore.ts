@@ -1,4 +1,4 @@
-import { action, makeObservable, observableShallow } from 'mobx'
+import { action, makeObservable, observable, observableShallow } from 'mobx'
 import { container, singleton } from 'tsyringe'
 
 import { ErrorAPI } from 'shared/error/ErrorAPI'
@@ -12,6 +12,7 @@ import { QuestsSyncStore } from './QuestsSyncStore'
 @singleton()
 export class QuestsStore {
   quests: Quest[] = []
+  isRefreshing = false
 
   private questsRepo = container.resolve(QuestsRepo)
   private questsSyncStore = container.resolve(QuestsSyncStore)
@@ -20,14 +21,20 @@ export class QuestsStore {
   private isLoadingPage = false
 
   constructor() {
-    makeObservable<this, 'setQuests'>(this, {
+    makeObservable<this, 'setQuests' | 'setRefreshing'>(this, {
       quests: observableShallow,
+      isRefreshing: observable,
       setQuests: action,
+      setRefreshing: action,
     })
   }
 
   get isSyncing() {
     return this.questsSyncStore.isSyncing
+  }
+
+  get syncedAt() {
+    return this.questsSyncStore.syncedAt
   }
 
   async start() {
@@ -59,10 +66,14 @@ export class QuestsStore {
   }
 
   refresh = async () => {
+    this.setRefreshing(true)
+
     try {
       await this.questsSyncStore.sync()
     } catch (error) {
       ErrorAPI.show(error)
+    } finally {
+      this.setRefreshing(false)
     }
   }
 
@@ -101,6 +112,10 @@ export class QuestsStore {
 
   private setQuests(quests: Quest[]) {
     this.quests = quests
+  }
+
+  private setRefreshing(isRefreshing: boolean) {
+    this.isRefreshing = isRefreshing
   }
 }
 

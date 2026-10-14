@@ -15,7 +15,7 @@ export class StoreLoader {
 
     await this.questsStore.start()
     this.networkStore.start()
-    this.questsSyncStore.start()
+    await this.questsSyncStore.start()
   }
 }
 

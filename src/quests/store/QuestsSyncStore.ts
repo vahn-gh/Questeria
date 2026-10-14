@@ -13,6 +13,7 @@ import { QuestRest } from '../services/rest/QuestRest'
 @singleton()
 export class QuestsSyncStore {
   isSyncing = false
+  syncedAt: Date | null = null
 
   private questSyncRepo = container.resolve(QuestSyncRepo)
   private questRest = container.resolve(QuestRest)
@@ -21,14 +22,17 @@ export class QuestsSyncStore {
   private isRerunQueued = false
 
   constructor() {
-    makeObservable<this, 'setSyncing'>(this, {
+    makeObservable<this, 'setSyncing' | 'setSyncedAt'>(this, {
       isSyncing: observable,
+      syncedAt: observable,
       setSyncing: action,
+      setSyncedAt: action,
     })
   }
 
-  // TODO: test: Make sure to test it using agent-device by rabidly opening and closing the app and see if we can improve this
-  start() {
+  async start() {
+    await this.loadSyncedAt()
+
     this.syncInBackground()
 
     AppState.addEventListener('change', appState => {
@@ -37,7 +41,6 @@ export class QuestsSyncStore {
       }
     })
 
-    // TODO: test: Make sure to test it using agent-device
     reaction(
       () => this.networkStore.isOnline,
       isOnline => {
@@ -66,6 +69,16 @@ export class QuestsSyncStore {
 
   private setSyncing(isSyncing: boolean) {
     this.isSyncing = isSyncing
+  }
+
+  private setSyncedAt(syncedAt: Date | null) {
+    this.syncedAt = syncedAt
+  }
+
+  private async loadSyncedAt() {
+    const meta = await this.questSyncRepo.getSyncedMeta()
+
+    this.setSyncedAt(meta?.syncedAt ?? null)
   }
 
   private syncInBackground() {
@@ -108,6 +121,8 @@ export class QuestsSyncStore {
 
       await this.refetchAllServerQuests()
     }
+
+    await this.loadSyncedAt()
   }
 
   private async mergeBatchesFrom(syncToken: string | null): Promise<void> {
