@@ -42,9 +42,10 @@ local.properties
 .vscode/
 .cxx/
 
-# Claude Code
+# Agents
 .claude/
 CLAUDE.local.md
+AGENTS.md
 
 # Nova IDE
 .nova
